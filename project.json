@@ -1,0 +1,23 @@
+{
+  "overview": "Value Kart is a modern Indian e-commerce storefront offering affordable watches, shoes, gadgets, and clothes with a ₹100 cashback-after-delivery offer. Includes a secure admin panel for product and order management.",
+  "features": [
+    "Mobile-first storefront with product grid and detail pages",
+    "Razorpay UPI and Cash on Delivery checkout",
+    "₹100 cashback system tracked and managed by admin",
+    "WhatsApp click-to-order and support integration",
+    "Secure admin login with product CRUD and image uploads",
+    "Order management with delivery and cashback tracking",
+    "Auto-sync products from admin panel to storefront"
+  ],
+  "category": "e-commerce",
+  "tags": [
+    "e-commerce",
+    "india",
+    "mobile-first",
+    "admin-panel",
+    "razorpay",
+    "whatsapp",
+    "cashback"
+  ],
+  "last_updated": "2026-04-26T04:54:02.056Z"
+}

@@ -1,0 +1,140 @@
+type http_request_result = 
+ record {
+   body: blob;
+   headers: vec http_header;
+   status: nat;
+ };
+type http_header = 
+ record {
+   name: text;
+   value: text;
+ };
+type TransformationOutput = 
+ record {
+   body: blob;
+   headers: vec http_header;
+   status: nat;
+ };
+type TransformationInput = 
+ record {
+   context: blob;
+   response: http_request_result;
+ };
+type Timestamp = int;
+type SessionToken = text;
+type ProductInput = 
+ record {
+   category: text;
+   colors: vec text;
+   commission: nat;
+   description: text;
+   imageUrl: text;
+   name: text;
+   price: nat;
+   sizes: vec text;
+ };
+type ProductId = nat;
+type Product = 
+ record {
+   category: text;
+   colors: vec text;
+   commission: nat;
+   createdAt: Timestamp;
+   description: text;
+   id: ProductId;
+   imageUrl: text;
+   name: text;
+   price: nat;
+   sizes: vec text;
+ };
+type PaymentStatus = 
+ variant {
+   completed;
+   failed;
+   pending;
+ };
+type PaymentMethod = 
+ variant {
+   COD;
+   UPI;
+ };
+type OrderStatus = 
+ variant {
+   delivered;
+   placed;
+   processing;
+   shipped;
+ };
+type OrderInput = 
+ record {
+   customerAddress: text;
+   customerEmail: opt text;
+   customerName: text;
+   customerPhone: text;
+   paymentMethod: PaymentMethod;
+   productColor: text;
+   productId: ProductId;
+   productName: text;
+   productPrice: nat;
+   productSize: text;
+   quantity: nat;
+   razorpayOrderId: opt text;
+ };
+type OrderId = nat;
+type Order = 
+ record {
+   cashbackStatus: CashbackStatus;
+   cashbackTimestamp: opt Timestamp;
+   createdAt: Timestamp;
+   customerAddress: text;
+   customerEmail: opt text;
+   customerName: text;
+   customerPhone: text;
+   deliveryTimestamp: opt Timestamp;
+   id: OrderId;
+   orderStatus: OrderStatus;
+   paymentMethod: PaymentMethod;
+   paymentStatus: PaymentStatus;
+   productColor: text;
+   productId: ProductId;
+   productName: text;
+   productPrice: nat;
+   productSize: text;
+   quantity: nat;
+   razorpayOrderId: opt text;
+   razorpayPaymentId: opt text;
+ };
+type LoginResult = 
+ variant {
+   err: text;
+   ok: SessionToken;
+ };
+type CashbackStatus = 
+ variant {
+   given;
+   pending;
+ };
+service : {
+  addProduct: (input: ProductInput) -> (Product);
+  adminLogin: (username: text, password: text) -> (LoginResult);
+  adminLogout: (token: text) -> ();
+  createOrder: (input: OrderInput) -> (nat);
+  createRazorpayOrder: (amount: nat, orderId: nat) -> (text);
+  deleteProduct: (id: nat) -> (bool);
+  getOrder: (orderId: nat) -> (opt Order) query;
+  getProduct: (id: nat) -> (opt Product) query;
+  getTotalOrders: () -> (nat) query;
+  getTotalProducts: () -> (nat) query;
+  listOrders: () -> (vec Order) query;
+  listProducts: () -> (vec Product) query;
+  markCashbackGiven: (orderId: nat) -> (opt Order);
+  markDelivered: (orderId: nat) -> (opt Order);
+  transform: (input: TransformationInput) -> (TransformationOutput) query;
+  updateOrderPaymentStatus: (orderId: nat, status: PaymentStatus,
+   razorpayPaymentId: opt text) -> (opt Order);
+  updateOrderStatus: (orderId: nat, status: OrderStatus) -> (opt Order);
+  updateProduct: (id: nat, input: ProductInput) -> (opt Product);
+  validateAdminSession: (token: text) -> (bool) query;
+  verifyRazorpayPayment: (razorpayOrderId: text, razorpayPaymentId: text,
+   razorpaySignature: text) -> (bool);
+}

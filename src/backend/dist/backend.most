@@ -1,0 +1,79 @@
+// Version: 1.0.0
+type CashbackStatus__37658870 = {#given; #pending};
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type OrderId__197865225 = Nat;
+type OrderId__559018581 = OrderId__197865225;
+type OrderStatus__591380551 = {#delivered; #placed; #processing; #shipped};
+type Order__720360493 =
+  {
+    cashbackStatus : CashbackStatus__37658870;
+    cashbackTimestamp : ?Timestamp__281002573;
+    createdAt : Timestamp__281002573;
+    customerAddress : Text;
+    customerEmail : ?Text;
+    customerName : Text;
+    customerPhone : Text;
+    deliveryTimestamp : ?Timestamp__281002573;
+    id : OrderId__559018581;
+    orderStatus : OrderStatus__591380551;
+    paymentMethod : PaymentMethod__731196174;
+    paymentStatus : PaymentStatus__747012114;
+    productColor : Text;
+    productId : ProductId__729729690;
+    productName : Text;
+    productPrice : Nat;
+    productSize : Text;
+    quantity : Nat;
+    razorpayOrderId : ?Text;
+    razorpayPaymentId : ?Text
+  };
+type PaymentMethod__731196174 = {#COD; #UPI};
+type PaymentStatus__747012114 = {#completed; #failed; #pending};
+type ProductId__160010635 = Nat;
+type ProductId__729729690 = ProductId__160010635;
+type ProductId__825579717 = ProductId__160010635;
+type Product__247116600 =
+  {
+    category : Text;
+    colors : [Text];
+    commission : Nat;
+    createdAt : Timestamp__102412676;
+    description : Text;
+    id : ProductId__825579717;
+    imageUrl : Text;
+    name : Text;
+    price : Nat;
+    sizes : [Text]
+  };
+type Timestamp__102412676 = Timestamp__301639476;
+type Timestamp__281002573 = Timestamp__301639476;
+type Timestamp__301639476 = Int;
+actor {
+  stable adminPassword : Text;
+  stable adminUsername : Text;
+  stable loginCounter : {var value : Nat};
+  stable nextOrderId : {var value : Nat};
+  stable nextProductId : {var value : Nat};
+  stable orders :
+    {
+      var root : Node__46230540<Nat, Order__720360493>;
+      var size : Nat__490723111
+    };
+  stable products :
+    {
+      var root : Node__46230540<Nat, Product__247116600>;
+      var size : Nat__490723111
+    };
+  stable razorpayKeyId : Text;
+  stable razorpayKeySecret : Text;
+  stable sessions :
+    {var root : Node__46230540<Text, Int>; var size : Nat__490723111}
+};
